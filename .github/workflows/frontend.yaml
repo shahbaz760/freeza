@@ -1,0 +1,24 @@
+name: CI
+on:
+  push:
+    branches: 
+    - main
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    steps:
+        - name: get_code
+          uses: actions/checkout@v4
+          
+        - name: Create env
+          env:
+            ENV: ${{ secrets.FRONTEND }}
+          run: echo $ENV>.env
+          
+        - name: Run a one-line script
+          run: docker build -t freeza .
+
+        - name: Run a multi-line script
+          run: |
+              docker run -p 3000:80 freeza:latest
